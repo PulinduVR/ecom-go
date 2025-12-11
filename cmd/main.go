@@ -3,6 +3,7 @@ package main
 
 import (
 	"log"
+	"log/slog"
 	"os"
 )
 
@@ -15,6 +16,10 @@ func main() {
 	api := application{
 		config: config,
 	}
+
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+
+	slog.SetDefault(logger)
 
 	// h := api.mount()
 	if err := api.run(api.mount()); err != nil {
