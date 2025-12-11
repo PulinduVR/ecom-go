@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/PulinduVR/ecom-go/internal/products"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -23,6 +24,11 @@ func (app *application) mount() http.Handler {
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Server is running"))
 	})
+
+	productService := products.NewService()
+	productHandler := products.NewHandler(productService)
+
+	r.Get("/products", productHandler.ListProducts)
 
 	return r
 
